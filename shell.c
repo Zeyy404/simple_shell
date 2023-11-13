@@ -1,6 +1,16 @@
 #include "main.h"
 
 /**
+ * is_whitespace - Checks if a character is a whitespace character.
+ * @c: character input
+ * Return: 1 if it is, 0 otherwise.
+ */
+int is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+}
+
+/**
  * main - simple shell program
  * @argc: arguments counts
  * @argv: arguments vectors
@@ -12,8 +22,8 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 	char *prompt = "($) ", *lineptr = NULL;
 	char *_argv = argv[0];
 	size_t n = 0;
-	ssize_t nchars_read = 0;
-	int i, re = 0;
+	ssize_t nchars_read = 0, j;
+	int i, re = 0, is_space = 1;
 
 	while (1)
 	{
@@ -22,9 +32,19 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 		nchars_read = getline(&lineptr, &n, stdin);
 		if (nchars_read == -1)
 			break;
+		for (j = 0; j < nchars_read; j++)
+		{
+			if (!is_whitespace(lineptr[j]))
+			{
+				is_space = 0;
+				break;
+			}
+		}
+		if (is_space)
+			continue;
 		argv = readCommand(lineptr, argv);
 		if (strcmp(argv[0], "exit") == 0)
-			exitShell(_argv, argv, lineptr);
+			exitShell(_argv, argv, lineptr, re);
 		else if (strcmp(argv[0], "cd") == 0)
 			re = changeDirectory(_argv, argv);
 		else

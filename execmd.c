@@ -20,7 +20,8 @@ int executeCommand(char *_argv, char *argv[])
 			return (-1);
 		if (child == 0)
 		{
-			execve(gcmd, argv, environ);
+			if (execve(gcmd, argv, environ) == -1)
+				return (126);
 		}
 		else
 		{
@@ -31,7 +32,7 @@ int executeCommand(char *_argv, char *argv[])
 	}
 	else
 	{
-		printf("%s: 1: %s: not found\n", _argv, argv[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", _argv, argv[0]);
 		return (127);
 	}
 	return (0);

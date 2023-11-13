@@ -5,9 +5,10 @@
  * @_argv: a pointer to the program (Shell) name
  * @argv: a pointer to array of strings
  * @lineptr: a pointer to the input on the CLI
+ * @re: return value
  * Return: void
  */
-void exitShell(char *_argv, char *argv[], char *lineptr)
+void exitShell(char *_argv, char *argv[], char *lineptr, int re)
 {
 	char *endptr;
 	long exitStatus;
@@ -22,11 +23,18 @@ void exitShell(char *_argv, char *argv[], char *lineptr)
 			for (i = 0; argv[i] != NULL; i++)
 				free(argv[i]);
 			free(argv);
-			exit((int)exitStatus);
+			if (exitStatus >= 0 && exitStatus <= 255)
+			{
+				exit((int)exitStatus);
+			}
+			else
+			{
+				fprintf(stderr, "%s: 1: %s: Illegal number: %s\n", _argv, argv[0], argv[1]);
+			}
 		}
 		else
 		{
-			printf("%s: 1: %s: Illegal number: %s\n", _argv, argv[0], argv[1]);
+			fprintf(stderr, "%s: 1: %s: Illegal number: %s\n", _argv, argv[0], argv[1]);
 		}
 	}
 	else
@@ -34,7 +42,7 @@ void exitShell(char *_argv, char *argv[], char *lineptr)
 		for (i = 0; argv[i] != NULL; i++)
 			free(argv[i]);
 		free(argv);
-		exit(0);
+		exit(re);
 	}
 }
 
@@ -54,7 +62,6 @@ int changeDirectory(char *_argv, char *argv[])
 	{
 		if (chdir(home_dir) != 0)
 		{
-			perror("cd");
 			free(buf);
 			return (2);
 		}
@@ -76,7 +83,7 @@ int changeDirectory(char *_argv, char *argv[])
 	{
 		if (chdir(argv[1]) != 0)
 		{
-			printf("%s: 1: cd: cannot cd to %s\n", _argv, argv[1]);
+			fprintf(stderr, "%s: 1: cd: can't cd to %s\n", _argv, argv[1]);
 			free(buf);
 			return (2);
 		}
@@ -84,10 +91,6 @@ int changeDirectory(char *_argv, char *argv[])
 	if (buf != NULL)
 	{
 		setenv("OLDPWD", buf, 1);
-		}
-	else
-	{
-		perror("getcwd");
 	}
 	free(buf);
 	return (0);
