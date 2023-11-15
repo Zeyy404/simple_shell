@@ -65,7 +65,6 @@ int changeDirectory(char *_argv, char *argv[])
 		if (chdir(home_dir) != 0)
 		{
 			free(buf);
-			return (1);
 		}
 	}
 	else if (strcmp(argv[1], "-") == 0)
