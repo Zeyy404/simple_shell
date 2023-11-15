@@ -15,6 +15,8 @@ char *getCommand(char *command)
 	if (command == NULL || command[0] == '\0')
 		return (NULL);
 	path = getenv("PATH");
+	if (path == NULL && strncmp(command, "/", 1) == 0)
+		path = strdup(command);
 	if (path)
 	{
 		path_copy = strdup(path);
