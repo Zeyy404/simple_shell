@@ -7,13 +7,10 @@
  */
 char *getCommand(char *command)
 {
-	char *path = NULL, *path_copy = NULL;
-	char *path_token = NULL, *file_path = NULL;
+	char *path = NULL, *path_copy = NULL, *path_token = NULL, *file_path = NULL;
 	int len_command, len_dir;
 	struct stat buffer;
 
-	if (command == NULL || command[0] == '\0')
-		return (NULL);
 	path = getenv("PATH");
 	if (path == NULL && strncmp(command, "/", 1) == 0)
 		path = strdup(command);
@@ -48,7 +45,6 @@ char *getCommand(char *command)
 			free(path);
 		if (stat(command, &buffer) == 0)
 			return (command);
-		return (NULL);
 	}
 	return (NULL);
 }
