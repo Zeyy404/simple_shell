@@ -73,7 +73,7 @@ int changeDirectory(char *_argv, char *argv[])
 		prev_dir = getenv("OLDPWD");
 		if (prev_dir == NULL)
 		{
-			chdir(buf);
+			printf("%s\n", buf);
 		}
 		else
 		{
