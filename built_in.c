@@ -97,3 +97,19 @@ int changeDirectory(char *_argv, char *argv[])
 	free(buf);
 	return (0);
 }
+
+/**
+ * print_env - prints the current enviroment
+ * Return: 0 and exit
+ */
+int print_env(void)
+{
+	char **env = environ;
+
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+	return (0);
+}

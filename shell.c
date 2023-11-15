@@ -20,8 +20,7 @@ int is_whitespace(char c)
  */
 int main(int __attribute__((__unused__))argc, char *argv[])
 {
-	char *prompt = "($) ", *lineptr = NULL;
-	char *_argv = argv[0];
+	char *prompt = "($) ", *lineptr = NULL, *_argv = argv[0];
 	size_t n = 0;
 	ssize_t nchars_read = 0, j;
 	int i, re = 0, is_space;
@@ -49,6 +48,8 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 			re = exitShell(_argv, argv, lineptr, re);
 		else if (strcmp(argv[0], "cd") == 0)
 			re = changeDirectory(_argv, argv);
+		else if (strcmp(argv[0], "env") == 0)
+			re = print_env();
 		else
 			re = executeCommand(_argv, argv);
 		for (i = 0; argv[i] != NULL; i++)

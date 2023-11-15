@@ -17,10 +17,10 @@ int executeCommand(char *_argv, char *argv[])
 	{
 		child = fork();
 		if (child == -1)
-			return (-1);
+			return (1);
 		if (child == 0)
 		{
-			if (execv(gcmd, argv) == -1)
+			if (execve(gcmd, argv, environ) == -1)
 			{
 				fprintf(stderr, "%s: 1: %s: Permission denied\n", _argv, argv[0]);
 				exit(126);
