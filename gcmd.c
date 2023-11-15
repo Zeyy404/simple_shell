@@ -33,6 +33,8 @@ char *getCommand(char *command)
 			if (stat(file_path, &buffer) == 0)
 			{
 				free(path_copy);
+				if (strcmp(path, command) == 0)
+					free(path);
 				return (file_path);
 			}
 			else
@@ -42,6 +44,8 @@ char *getCommand(char *command)
 			}
 		}
 		free(path_copy);
+		if (strcmp(path, command) == 0)
+			free(path);
 		if (stat(command, &buffer) == 0)
 			return (command);
 		return (NULL);
