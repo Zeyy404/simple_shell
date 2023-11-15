@@ -78,6 +78,7 @@ int changeDirectory(char *_argv, char *argv[])
 		else
 		{
 			chdir(prev_dir);
+			printf("%s\n", prev_dir);
 		}
 	}
 	else
