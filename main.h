@@ -9,7 +9,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-extern char **environ;
 
 int is_whitespace(char c);
 char **readCommand(char *lineptr, char *argv[]);
