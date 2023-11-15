@@ -9,7 +9,7 @@
 char **readCommand(char *lineptr, char *argv[])
 {
 	char *lineptr_copy = NULL, *token;
-	const char *delimeter = " \n\t";
+	const char *delimeter = " \n";
 	int i, n_token = 0;
 
 	lineptr_copy = strdup(lineptr);

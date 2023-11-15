@@ -10,7 +10,7 @@ int executeCommand(char *_argv, char *argv[])
 {
 	pid_t child;
 	char *gcmd = NULL;
-	int status;
+	int status, exit_status;
 
 	gcmd = getCommand(argv[0]);
 	if (gcmd != NULL)
@@ -21,13 +21,19 @@ int executeCommand(char *_argv, char *argv[])
 		if (child == 0)
 		{
 			if (execve(gcmd, argv, environ) == -1)
-				return (126);
+			{
+				fprintf(stderr, "%s: 1: %s: Permission denied\n", _argv, argv[0]);
+				exit(126);
+			}
 		}
 		else
 		{
 			wait(&status);
 			if (strcmp(gcmd, argv[0]) != 0)
 				free(gcmd);
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
+				return (exit_status);
 		}
 	}
 	else

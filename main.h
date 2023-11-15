@@ -15,7 +15,7 @@ int is_whitespace(char c);
 char **readCommand(char *lineptr, char *argv[]);
 char *getCommand(char *command);
 int executeCommand(char *_argv, char *argv[]);
-void exitShell(char *_argv, char *argv[], char *lineptr, int re);
+int exitShell(char *_argv, char *argv[], char *lineptr, int re);
 int changeDirectory(char *_argv, char *argv[]);
 
 #endif

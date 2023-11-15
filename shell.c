@@ -1,3 +1,4 @@
+
 #include "main.h"
 
 /**
@@ -23,7 +24,7 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 	char *_argv = argv[0];
 	size_t n = 0;
 	ssize_t nchars_read = 0, j;
-	int i, re = 0, is_space = 1;
+	int i, re = 0, is_space;
 
 	while (1)
 	{
@@ -32,6 +33,7 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 		nchars_read = getline(&lineptr, &n, stdin);
 		if (nchars_read == -1)
 			break;
+		is_space = 1;
 		for (j = 0; j < nchars_read; j++)
 		{
 			if (!is_whitespace(lineptr[j]))
@@ -44,7 +46,7 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 			continue;
 		argv = readCommand(lineptr, argv);
 		if (strcmp(argv[0], "exit") == 0)
-			exitShell(_argv, argv, lineptr, re);
+			re = exitShell(_argv, argv, lineptr, re);
 		else if (strcmp(argv[0], "cd") == 0)
 			re = changeDirectory(_argv, argv);
 		else
@@ -54,9 +56,7 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 		free(argv);
 	}
 	if (isatty(STDIN_FILENO))
-	{
 		write(STDOUT_FILENO, "\n", 1);
-	}
 	free(lineptr);
 	return (re);
 }
