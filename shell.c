@@ -1,15 +1,4 @@
-
 #include "main.h"
-
-/**
- * is_whitespace - Checks if a character is a whitespace character.
- * @c: character input
- * Return: 1 if it is, 0 otherwise.
- */
-int is_whitespace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
-}
 
 /**
  * main - simple shell program
