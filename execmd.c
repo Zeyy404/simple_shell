@@ -13,18 +13,22 @@ int executeCommand(char *_argv, char *argv[])
 	int status, exit_status;
 
 	gcmd = getCommand(argv[0]);
-	if (gcmd != NULL)
+	if (gcmd != NULL || strncmp(argv[0], "/", 1) == 0)
 	{
 		child = fork();
 		if (child == -1)
 			return (1);
 		if (child == 0)
 		{
+			if (gcmd == NULL)
+				gcmd = strdup(argv[0]);
 			if (execve(gcmd, argv, environ) == -1)
 			{
 				fprintf(stderr, "%s: 1: %s: Permission denied\n", _argv, argv[0]);
 				exit(126);
 			}
+			if (strcmp(gcmd, argv[0]) == 0)
+				free(gcmd);
 		}
 		else
 		{
