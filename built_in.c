@@ -63,19 +63,21 @@ int changeDirectory(char *_argv, char *argv[])
 	if (argv[1] == NULL)
 	{
 		if (chdir(home_dir) != 0)
+		{
 			free(buf);
+			return (2);
+		}
 	}
 	else if (strcmp(argv[1], "-") == 0)
 	{
 		prev_dir = getenv("OLDPWD");
 		if (prev_dir == NULL)
 		{
-			printf("%s\n", buf);
+			chdir(buf);
 		}
 		else
 		{
 			chdir(prev_dir);
-			printf("%s\n", prev_dir);
 		}
 	}
 	else
@@ -84,6 +86,7 @@ int changeDirectory(char *_argv, char *argv[])
 		{
 			fprintf(stderr, "%s: 1: cd: can't cd to %s\n", _argv, argv[1]);
 			free(buf);
+			return (2);
 		}
 	}
 	if (buf != NULL)
