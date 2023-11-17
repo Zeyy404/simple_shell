@@ -12,15 +12,13 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 	char *prompt = "($) ", *lineptr = NULL, *_argv = argv[0];
 	size_t n = 0;
 	ssize_t nchars_read = 0, j;
-	int i, re = 0, is_space;
+	int re = 0, is_space;
 
-	while (1)
+	while (nchars_read != -1)
 	{
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, prompt, strlen(prompt));
 		nchars_read = getline(&lineptr, &n, stdin);
-		if (nchars_read == -1)
-			break;
 		is_space = 1;
 		for (j = 0; j < nchars_read; j++)
 		{
@@ -39,14 +37,30 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 			re = changeDirectory(_argv, argv);
 		else if (strcmp(argv[0], "env") == 0)
 			re = print_env();
+		else if (strcmp(argv[0], "setenv") == 0)
+			re = set_env(_argv, argv);
+		else if (strcmp(argv[0], "unsetenv") == 0)
+			re = unset_env(_argv, argv);
 		else
 			re = executeCommand(_argv, argv);
-		for (i = 0; argv[i] != NULL; i++)
-			free(argv[i]);
-		free(argv);
+		free_memory(argv);
 	}
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
 	free(lineptr);
 	return (re);
+}
+
+/**
+ * free_memory - frees the memory allocated for argv
+ * @argv: a pointer to array of strings
+ * Return: void
+ */
+void free_memory(char *argv[])
+{
+	int i;
+
+	for (i = 0; argv[i] != NULL; i++)
+		free(argv[i]);
+	free(argv);
 }

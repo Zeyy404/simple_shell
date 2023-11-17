@@ -111,3 +111,35 @@ int print_env(void)
 	}
 	return (0);
 }
+
+/**
+ * set_env - sets or unsets a new enviroment variable
+ * @_argv: a pointer to the prpgram (Shell) name
+ * @argv: a pointer to array of strings
+ * Return: 0 (Success) or 2 (failure)
+ */
+int set_env(char *_argv, char *argv[])
+{
+	if (setenv(argv[1], argv[2], 1) != 0)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", _argv, argv[0]);
+		return (2);
+	}
+	return (0);
+}
+
+/**
+ * unset_env - unsets an existing enviroment variable
+ * @_argv: a pointer to the program (Shell) name
+ * @argv: a pointer to array of strings
+ * Return: 0 (Success) or 2 (failure)
+ */
+int unset_env(char *_argv, char *argv[])
+{
+	if (unsetenv(argv[1]) != 0)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", _argv, argv[0]);
+		return (2);
+	}
+	return (0);
+}

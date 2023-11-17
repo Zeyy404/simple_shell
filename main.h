@@ -11,6 +11,7 @@
 
 extern char **environ;
 
+void free_memory(char *argv[]);
 int is_whitespace(char c);
 char **readCommand(char *lineptr, char *argv[]);
 char *getCommand(char *command);
@@ -18,5 +19,7 @@ int executeCommand(char *_argv, char *argv[]);
 int exitShell(char *_argv, char *argv[], char *lineptr, int re);
 int changeDirectory(char *_argv, char *argv[]);
 int print_env(void);
+int set_env(char *_argv, char *argv[]);
+int unset_env(char *_argv, char *argv[]);
 
 #endif
