@@ -7,9 +7,9 @@
  * Return: 0 (Success), 2 (Misuse of Shell Builtins),
  *              or 127 (Command Not Found)
  */
-int main(int __attribute__((__unused__))argc, char *argv[])
+int main(int __attribute__((__unused__))ac, char *av[])
 {
-	char *prompt = "($) ", *lineptr = NULL, *_argv = argv[0];
+	char *prompt = "($) ", *lineptr = NULL, *_argv = av[0];
 	size_t n = 0;
 	ssize_t nchars_read = 0, j;
 	int re = 0, is_space;
@@ -30,20 +30,20 @@ int main(int __attribute__((__unused__))argc, char *argv[])
 		}
 		if (is_space)
 			continue;
-		argv = readCommand(lineptr, argv);
-		if (strcmp(argv[0], "exit") == 0)
-			re = exitShell(_argv, argv, lineptr, re);
-		else if (strcmp(argv[0], "cd") == 0)
-			re = changeDirectory(_argv, argv);
-		else if (strcmp(argv[0], "env") == 0)
+		av = readCommand(lineptr, av);
+		if (strcmp(av[0], "exit") == 0)
+			re = exitShell(_argv, av, lineptr, re);
+		else if (strcmp(av[0], "cd") == 0)
+			re = changeDirectory(_argv, av);
+		else if (strcmp(av[0], "env") == 0)
 			re = print_env();
-		else if (strcmp(argv[0], "setenv") == 0)
-			re = set_env(_argv, argv);
-		else if (strcmp(argv[0], "unsetenv") == 0)
-			re = unset_env(_argv, argv);
+		else if (strcmp(av[0], "setenv") == 0 && av[1] != NULL && av[2] != NULL)
+			re = set_env(_argv, av);
+		else if (strcmp(av[0], "unsetenv") == 0)
+			re = unset_env(_argv, av);
 		else
-			re = executeCommand(_argv, argv);
-		free_memory(argv);
+			re = executeCommand(_argv, av);
+		free_memory(av);
 	}
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
