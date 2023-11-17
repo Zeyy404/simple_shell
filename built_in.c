@@ -59,9 +59,9 @@ int changeDirectory(char *_argv, char *argv[])
 	char *home_dir = NULL, *prev_dir = NULL;
 	char *buf = getcwd(NULL, 0);
 
-	home_dir = getenv("HOME");
 	if (argv[1] == NULL)
 	{
+		home_dir = getenv("HOME");
 		if (home_dir == NULL)
 		{
 			free(buf);
