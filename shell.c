@@ -2,8 +2,8 @@
 
 /**
  * main - simple shell program
- * @argc: arguments counts
- * @argv: arguments vectors
+ * @ac: arguments counts
+ * @av: arguments vectors
  * Return: 0 (Success), 2 (Misuse of Shell Builtins),
  *              or 127 (Command Not Found)
  */
