@@ -62,11 +62,13 @@ int changeDirectory(char *_argv, char *argv[])
 	home_dir = getenv("HOME");
 	if (argv[1] == NULL)
 	{
-		if (chdir(home_dir) != 0)
+		if (home_dir == NULL)
 		{
 			free(buf);
 			return (2);
 		}
+		else
+			chdir(home_dir);
 	}
 	else if (strcmp(argv[1], "-") == 0)
 	{
